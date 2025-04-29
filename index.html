@@ -205,12 +205,10 @@
         });
 
         window.addEventListener('scroll', () => {
-            const navLinks = document.querySelector('.nav-links');
-            const burger = document.querySelector('.burger');
-            const overlay = document.querySelector('.overlay');
+            const isMobile = window.innerWidth <= 768;
 
-            if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
+            if (isMobile && nav.classList.contains('active')) {
+                nav.classList.remove('active');
                 burger.classList.remove('active');
                 overlay.classList.remove('active');
                 document.body.classList.remove('no-scroll');
