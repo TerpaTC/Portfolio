@@ -334,3 +334,7 @@ h2 {
     opacity: 1;
     pointer-events: all;
 }
+
+.no-scroll {
+    overflow: hidden;
+}
