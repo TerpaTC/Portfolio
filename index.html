@@ -196,6 +196,7 @@
         const overlay = document.getElementById('overlay');
 
         function closeMenu() {
+            isMenuOpen = false;
             nav.classList.remove('active');
             burger.classList.remove('active');
             overlay.classList.remove('active');
@@ -203,23 +204,28 @@
         }
 
         burger.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
             nav.classList.toggle('active');
             burger.classList.toggle('active'); // для крестика
             overlay.classList.toggle('active');
-            document.body.classList.toggle('no-scroll');
+            if (isMenuOpen) {
+                document.body.classList.add('no-scroll');
+            } else {
+                document.body.classList.remove('no-scroll');
+            }
         });
 
-        overlay.addEventListener('click', () => {
-            closeMenu();
-        });
+        overlay.addEventListener('click', closeMenu);
 
         window.addEventListener('scroll', () => {
             if (window.innerWidth <= 768 && isMenuOpen) {
-                isMenuOpen = false;
-                nav.classList.remove('active');
-                burger.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.classList.remove('no-scroll');
+                closeMenu();
+            }
+        });
+
+        window.addEventListener('touchmove', () => {
+            if (window.innerWidth <= 768 && isMenuOpen) {
+                closeMenu();
             }
         });
     </script>
