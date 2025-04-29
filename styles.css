@@ -85,7 +85,7 @@ header p {
 
 @media (max-width: 768px) {
     .burger {
-        display: flex;
+        display: flex !important;
     }
 
     .nav-links {
@@ -158,10 +158,6 @@ header p {
 
     .nav-links li {
         margin: 0;
-    }
-
-    .burger {
-        display: none;
     }
 }
 
