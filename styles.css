@@ -129,3 +129,54 @@ h1,
 h2 {
     animation: glitch 1.5s infinite alternate;
 }
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 30px 10px;
+    }
+
+    section {
+        margin: 10px;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    form {
+        max-width: 100%;
+    }
+
+    input,
+    textarea,
+    button {
+        font-size: 14px;
+    }
+
+    ul li {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 24px;
+    }
+
+    header p {
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}
