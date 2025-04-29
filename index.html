@@ -211,7 +211,8 @@
         });
 
         window.addEventListener('scroll', () => {
-            if (isMenuOpen) {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile && isMenuOpen) {
                 isMenuOpen = false;
                 nav.classList.remove('active');
                 burger.classList.remove('active');
