@@ -16,6 +16,20 @@
         <p>Будущий Frontend-разработчик 🚀</p>
     </header>
 
+    <nav class="navbar">
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#about">Обо мне</a></li>
+            <li><a href="#skills">Навыки</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+
+        <div class="burger" id="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
     <section id="about" class="section-hidden">
         <h2>Обо мне</h2>
         <p>Привет! Меня зовут Яна, мне 23 года и я учусь создавать сайты, стремлюсь стать топовым специалистом в
@@ -114,7 +128,7 @@
 
         window.addEventListener('resize', () => {
             resizeCanvas();
-            createStars(); ub
+            createStars();
         });
 
         resizeCanvas();
@@ -172,6 +186,35 @@
             sectionObserver.observe(section);
         });
     </script>
+
+    <script>
+        const burger = document.getElementById('burger');
+        const nav = document.getElementById('nav-links');
+        const overlay = document.getElementById('overlay');
+
+        burger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            burger.classList.toggle('active'); // для крестика
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            nav.classList.remove('active');
+            burger.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        window.addEventListener('scroll', () => {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                nav.classList.remove('active');
+                burger.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+    </script>
+
+    <div class="overlay" id="overlay"></div>
 
 </body>
 
