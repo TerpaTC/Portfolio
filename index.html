@@ -214,8 +214,12 @@
         });
 
         window.addEventListener('scroll', () => {
-            if (nav.classList.contains('active')) {
-                closeMenu();
+            if (window.innerWidth <= 768 && isMenuOpen) {
+                isMenuOpen = false;
+                nav.classList.remove('active');
+                burger.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
             }
         });
     </script>
