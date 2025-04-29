@@ -16,7 +16,7 @@
         <p>Будущий Frontend-разработчик 🚀</p>
     </header>
 
-    <section id="about">
+    <section id="about" class="section-hidden">
         <h2>Обо мне</h2>
         <p>Привет! Меня зовут Яна, мне 23 года и я учусь создавать сайты, стремлюсь стать топовым специалистом в
             Frontend-разработке. Люблю котиков, удаленку
@@ -24,7 +24,7 @@
             30% экстраверт, 100% перфекционист с щепоткой ОКР. Как сова, ненавижу жаворонков и утро. </p>
     </section>
 
-    <section id="skills">
+    <section id="skills" class="section-hidden">
         <h2>Мои навыки</h2>
         <ul>
             <li><i class="fa-brands fa-html5"></i> HTML5</li>
@@ -34,7 +34,7 @@
         </ul>
     </section>
 
-    <section id="contact">
+    <section id="contact" class="section-hidden">
         <h2>Связаться со мной</h2>
 
         <form id="contact-form" action="https://formsubmit.co/terpa0312@gmail.com" method="POST">
@@ -148,6 +148,28 @@
             }).catch(error => {
                 alert('Ошибка сети. Попробуйте ещё раз.');
             });
+        });
+    </script>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+
+        const revealSection = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('section-hidden');
+                    entry.target.classList.add('section-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const sectionObserver = new IntersectionObserver(revealSection, {
+            threshold: 0.15
+        });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
         });
     </script>
 
