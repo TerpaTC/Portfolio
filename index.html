@@ -194,27 +194,28 @@
         const burger = document.getElementById('burger');
         const nav = document.getElementById('nav-links');
         const overlay = document.getElementById('overlay');
+        let isMenuOpen = false;
 
         burger.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
             nav.classList.toggle('active');
             burger.classList.toggle('active'); // для крестика
             overlay.classList.toggle('active');
         });
 
         overlay.addEventListener('click', () => {
+            isMenuOpen = false;
             nav.classList.remove('active');
             burger.classList.remove('active');
             overlay.classList.remove('active');
         });
 
         window.addEventListener('scroll', () => {
-            const isMobile = window.innerWidth <= 768;
-
-            if (isMobile && nav.classList.contains('active')) {
+            if (isMenuOpen) {
+                isMenuOpen = false;
                 nav.classList.remove('active');
                 burger.classList.remove('active');
                 overlay.classList.remove('active');
-                document.body.classList.remove('no-scroll');
             }
         });
     </script>
