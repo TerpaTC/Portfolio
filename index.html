@@ -194,10 +194,8 @@
         const burger = document.getElementById('burger');
         const nav = document.getElementById('nav-links');
         const overlay = document.getElementById('overlay');
-        let isMenuOpen = false;
 
         function openMenu() {
-            isMenuOpen = true;
             nav.classList.add('active');
             burger.classList.add('active');
             overlay.classList.add('active');
@@ -205,7 +203,6 @@
         }
 
         function closeMenu() {
-            isMenuOpen = false;
             nav.classList.remove('active');
             burger.classList.remove('active');
             overlay.classList.remove('active');
@@ -213,17 +210,17 @@
         }
 
         burger.addEventListener('click', () => {
-            if (isMenuOpen) {
-                closeMenu();
-            } else {
-                openMenu();
-            }
+            const isOpen = nav.classList.contains('active');
+            isOpen ? closeMenu() : openMenu();
         });
 
         overlay.addEventListener('click', closeMenu);
 
         function handleScrollOrTouch() {
-            if (window.innerWidth <= 768 && isMenuOpen) {
+            const isMobile = window.innerWidth <= 768;
+            const isNavOpen = nav.classList.contains('active');
+
+            if (isMobile && isOpen) {
                 closeMenu();
             }
         }
