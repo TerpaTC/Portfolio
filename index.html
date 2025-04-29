@@ -194,6 +194,15 @@
         const burger = document.getElementById('burger');
         const nav = document.getElementById('nav-links');
         const overlay = document.getElementById('overlay');
+        let isMenuOpen = false;
+
+        function openMenu() {
+            isMenuOpen = true;
+            nav.classList.add('active');
+            burger.classList.add('active');
+            overlay.classList.add('active');
+            document.body.classList.add('no-scroll');
+        }
 
         function closeMenu() {
             isMenuOpen = false;
@@ -204,30 +213,23 @@
         }
 
         burger.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            nav.classList.toggle('active');
-            burger.classList.toggle('active'); // для крестика
-            overlay.classList.toggle('active');
             if (isMenuOpen) {
-                document.body.classList.add('no-scroll');
+                closeMenu();
             } else {
-                document.body.classList.remove('no-scroll');
+                openMenu();
             }
         });
 
         overlay.addEventListener('click', closeMenu);
 
-        window.addEventListener('scroll', () => {
+        function handleScrollOrTouch() {
             if (window.innerWidth <= 768 && isMenuOpen) {
                 closeMenu();
             }
-        });
+        }
 
-        window.addEventListener('touchmove', () => {
-            if (window.innerWidth <= 768 && isMenuOpen) {
-                closeMenu();
-            }
-        });
+        window.addEventListener('scroll', handleScrollOrTouch);
+        window.addEventListener('touchmove', handleScrollOrTouch);
     </script>
 
     <div class="overlay" id="overlay"></div>
