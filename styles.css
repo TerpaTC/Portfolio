@@ -1,0 +1,131 @@
+#stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: transparent;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1a001f;
+    color: #ffccff;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: linear-gradient(to right, #ff00cc, #333399);
+    color: white;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 4px 15px #ff00cc;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+header p {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+section {
+    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 0, 204, 0.1);
+}
+
+h2 {
+    color: #ff66e7;
+    text-align: center;
+    font-size: 28px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+ul li {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #ffccff;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #ff00cc;
+    background-color: #2a0033;
+    color: #ffccff;
+    border-radius: 6px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #ff00cc, #333399);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 10px #ff00cc, 0 0 20px #333399;
+    transition: transform 0.2s, box-shadow 0.3s;
+    margin-top: 20px;
+}
+
+button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 15px #ff00cc, 0 0 30px #333399;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #0d0010;
+    color: #ff99ff;
+}
+
+@keyframes glitch {
+    0% {
+        text-shadow: 2px 2px #ff00cc, -2px -2px #333399;
+    }
+
+    50% {
+        text-shadow: -2px 2px #ff00cc, 2px -2px #333399;
+    }
+
+    100% {
+        text-shadow: 2px -2px #ff00cc, -2px 2px #333399;
+    }
+}
+
+h1,
+h2 {
+    animation: glitch 1.5s infinite alternate;
+}

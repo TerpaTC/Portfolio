@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Портфолио TerpaTC</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <canvas id="stars"></canvas>
+
+    <header>
+        <h1><i class="fa-solid fa-wand-magic-sparkles"></i>Яна Венгрус | TerpaTC</h1>
+        <p>Будущий Frontend-разработчик 🚀</p>
+    </header>
+
+    <section id="about">
+        <h2>Обо мне</h2>
+        <p>Привет! Меня зовут Яна, мне 23 года и я учусь создавать сайты, стремлюсь стать топовым специалистом в
+            Frontend-разработке. Люблю котиков, удаленку
+            и work-life balance. Мечтаю жить в доме с бассейном на участке, близко к морю и природе. На 70% интроверт,
+            30% экстраверт, 100% перфекционист с щепоткой ОКР. Как сова, ненавижу жаворонков и утро. </p>
+    </section>
+
+    <section id="skills">
+        <h2>Мои навыки</h2>
+        <ul>
+            <li><i class="fa-brands fa-html5"></i>HTML5</li>
+            <li><i class="fa-brands fa-css3-alt"></i>CSS3</li>
+            <li><i class="fa-brands fa-git-alt"></i>Git и GitHub</li>
+            <li><i class="fa-brands fa-python"></i>Python</li>
+        </ul>
+    </section>
+
+    <section id="contact">
+        <h2>Связаться со мной</h2>
+
+        <form id="contact-form" action="https://formsubmit.co/terpa0312@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Сообщение:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit">Отправить</button>
+        </form>
+
+        <div id="thank-you-message"
+            style="display:none; margin-top:20px; text-align:center; color:#ffccff; font-size:18px;">
+            Спасибо! Ваше сообщение отправлено! 🌟
+        </div>
+    </section>
+
+    <footer>
+        <p>© TerpaTC, 2025</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+
+        let stars = [];
+        const numStars = 100;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5,
+                    speed: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffccff'; // розовые звёзды
+            for (let star of stars) {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function updateStars() {
+            for (let star of stars) {
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            }
+        }
+
+        function animate() {
+            drawStars();
+            updateStars();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createStars(); ub
+        });
+
+        resizeCanvas();
+        createStars();
+        animate();
+    </script>
+
+    <script>
+        const form = document.getElementById('contact-form');
+        const thankYouMessage = document.getElementById('thank-you-message');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Отменяем стандартную отправку
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    form.reset(); // Очищаем форму
+                    form.style.display = 'none'; // Прячем форму
+                    thankYouMessage.style.display = 'block'; // Показываем сообщение
+                } else {
+                    alert('Ошибка при отправке. Попробуйте ещё раз.');
+                }
+            }).catch(error => {
+                alert('Ошибка сети. Попробуйте ещё раз.');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
