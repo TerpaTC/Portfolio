@@ -205,11 +205,15 @@
         });
 
         window.addEventListener('scroll', () => {
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile) {
-                nav.classList.remove('active');
+            const navLinks = document.querySelector('.nav-links');
+            const burger = document.querySelector('.burger');
+            const overlay = document.querySelector('.overlay');
+
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
                 burger.classList.remove('active');
                 overlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
             }
         });
     </script>
