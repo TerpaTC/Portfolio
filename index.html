@@ -194,12 +194,14 @@
         const burger = document.getElementById('burger');
         const nav = document.getElementById('nav-links');
         const overlay = document.getElementById('overlay');
+        let isMenuOpen = false;
 
         function openMenu() {
             nav.classList.add('active');
             burger.classList.add('active');
             overlay.classList.add('active');
             document.body.classList.add('no-scroll');
+            isMenuOpen = true;
         }
 
         function closeMenu() {
@@ -207,6 +209,7 @@
             burger.classList.remove('active');
             overlay.classList.remove('active');
             document.body.classList.remove('no-scroll');
+            isMenuOpen = false;
         }
 
         burger.addEventListener('click', () => {
