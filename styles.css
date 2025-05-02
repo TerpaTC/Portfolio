@@ -257,13 +257,13 @@ footer {
 
 .section-hidden {
     opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transform: translateY(50px) scale(0.95);
+    transition: all 0.8s ease-out;
 }
 
 .section-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 h1,
@@ -337,4 +337,27 @@ h2 {
 
 .no-scroll {
     overflow: hidden;
+}
+
+#to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #ff00cc, #333399);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+}
+
+#to-top.show {
+    opacity: 1;
+    pointer-events: all;
 }
