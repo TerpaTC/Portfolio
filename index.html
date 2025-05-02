@@ -77,6 +77,8 @@
         <p>© TerpaTC, 2025</p>
     </footer>
 
+    <div class="overlay" id="overlay"></div>
+
     <script>
         const canvas = document.getElementById('stars');
         const ctx = canvas.getContext('2d');
@@ -193,47 +195,27 @@
     <script>
         const burger = document.getElementById('burger');
         const nav = document.getElementById('nav-links');
-        const overlay = document.getElementById('overlay');
-        let isMenuOpen = false;
-        document.onclick(() => {
-            nav.classList.remove('active');
-            burger.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-            isMenuOpen = false;
-        })
-        document.onscroll(() => {
-            nav.classList.remove('active');
-            burger.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-            isMenuOpen = false;
-        })
+
         function openMenu() {
             nav.classList.add('active');
             burger.classList.add('active');
             overlay.classList.add('active');
-            document.body.classList.add('no-scroll');
-            isMenuOpen = true;
         }
 
         function closeMenu() {
             nav.classList.remove('active');
             burger.classList.remove('active');
             overlay.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-            isMenuOpen = false;
         }
 
         burger.addEventListener('click', () => {
             const isOpen = nav.classList.contains('active');
             isOpen ? closeMenu() : openMenu();
         });
-
         overlay.addEventListener('click', closeMenu);
+        document.addEventListener('scroll', closeMenu);
     </script>
 
-    <div class="overlay" id="overlay"></div>
 
 </body>
 
