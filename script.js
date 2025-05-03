@@ -1,20 +1,21 @@
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
+// --- Анимация звезд ---
+const starsCanvas = document.getElementById('stars');
+const starsCtx = starsCanvas.getContext('2d');
 
 let stars = [];
 const numStars = 100;
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function resizeStarsCanvas() {
+    starsCanvas.width = window.innerWidth;
+    starsCanvas.height = window.innerHeight;
 }
 
 function createStars() {
     stars = [];
     for (let i = 0; i < numStars; i++) {
         stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: Math.random() * starsCanvas.width,
+            y: Math.random() * starsCanvas.height,
             radius: Math.random() * 1.5,
             speed: Math.random() * 0.5 + 0.2
         });
@@ -22,70 +23,41 @@ function createStars() {
 }
 
 function drawStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#ffccff'; // розовые звёзды
+    starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+    starsCtx.fillStyle = '#ffccff';
     for (let star of stars) {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fill();
+        starsCtx.beginPath();
+        starsCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        starsCtx.fill();
     }
 }
 
 function updateStars() {
     for (let star of stars) {
         star.y += star.speed;
-        if (star.y > canvas.height) {
+        if (star.y > starsCanvas.height) {
             star.y = 0;
-            star.x = Math.random() * canvas.width;
+            star.x = Math.random() * starsCanvas.width;
         }
     }
 }
-
-function animate() {
+function animateStars() {
     drawStars();
     updateStars();
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateStars);
 }
 
 window.addEventListener('resize', () => {
-    resizeCanvas();
+    resizeStarsCanvas();
     createStars();
 });
-
-resizeCanvas();
+resizeStarsCanvas();
 createStars();
-animate();
+animateStars();
 
-const form = document.getElementById('contact-form');
-const thankYouMessage = document.getElementById('thank-you-message');
-
-form.addEventListener('submit', function (e) {
-    e.preventDefault(); // Отменяем стандартную отправку
-
-    const formData = new FormData(form);
-
-    fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
-    }).then(response => {
-        if (response.ok) {
-            form.reset(); // Очищаем форму
-            form.style.display = 'none'; // Прячем форму
-            thankYouMessage.style.display = 'block'; // Показываем сообщение
-        } else {
-            alert('Ошибка при отправке. Попробуйте ещё раз.');
-        }
-    }).catch(error => {
-        alert('Ошибка сети. Попробуйте ещё раз.');
-    });
-});
-
+// --- Секции ---
 const sections = document.querySelectorAll('section');
-
-const revealSection = (entries, observer) => {
+const sectionObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
             setTimeout(() => {
@@ -95,18 +67,14 @@ const revealSection = (entries, observer) => {
             observer.unobserve(entry.target);
         }
     });
-};
+}, { threshold: 0.15 });
 
-const sectionObserver = new IntersectionObserver(revealSection, {
-    threshold: 0.15
-});
+sections.forEach(section => sectionObserver.observe(section));
 
-sections.forEach(section => {
-    sectionObserver.observe(section);
-});
-
+// --- Бургер ---
 const burger = document.getElementById('burger');
 const nav = document.getElementById('nav-links');
+const overlay = document.getElementById('overlay');
 
 function openMenu() {
     nav.classList.add('active');
@@ -119,24 +87,136 @@ function closeMenu() {
     burger.classList.remove('active');
     overlay.classList.remove('active');
 }
-
-burger.addEventListener('click', () => {
-    const isOpen = nav.classList.contains('active');
-    isOpen ? closeMenu() : openMenu();
-});
+burger.addEventListener('click', () => nav.classList.contains('active') ? closeMenu() : openMenu());
 overlay.addEventListener('click', closeMenu);
 document.addEventListener('scroll', closeMenu);
 
-const toTopBtn = document.getElementById('to-top');
+// --- Кнопка наверх и фейерверк ---
+const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+const fireworkCanvas = document.getElementById('fireworkCanvas');
+const fireworkCtx = fireworkCanvas.getContext('2d');
+const fireworkSound = document.getElementById('fireworkSound');
 
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-        toTopBtn.classList.add('show');
+let particles = [];
+let explosionCenter = { x: 0, y: 0 };
+let suckingStarted = false;
+let explosionRunning = false;
+
+function resizeFireworkCanvas() {
+    fireworkCanvas.width = window.innerWidth;
+    fireworkCanvas.height = window.innerHeight;
+}
+resizeFireworkCanvas();
+window.addEventListener('resize', resizeFireworkCanvas);
+
+function createParticles(x, y) {
+    particles = [];
+    for (let i = 0; i < 80; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            angle: Math.random() * Math.PI * 2,
+            speed: Math.random() * 5 + 3,
+            radius: Math.random() * 2 + 1,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+            alpha: 1,
+            spiral: 0
+        });
+    }
+}
+
+function updateParticles() {
+    fireworkCtx.clearRect(0, 0, fireworkCanvas.width, fireworkCanvas.height);
+
+    particles.forEach((p, index) => {
+        if (!suckingStarted) {
+            p.x += Math.cos(p.angle) * p.speed;
+            p.y += Math.sin(p.angle) * p.speed;
+            p.speed *= 0.96;
+        } else {
+            const dx = explosionCenter.x - p.x;
+            const dy = explosionCenter.y - p.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            const pull = Math.min(0.08, 5 / (distance || 1));
+            p.spiral += 0.3;
+
+            p.x += pull * dx + Math.cos(p.spiral) * 2;
+            p.y += pull * dy + Math.sin(p.spiral) * 2;
+        }
+
+        p.alpha *= 0.97;
+
+        fireworkCtx.beginPath();
+        fireworkCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        fireworkCtx.fillStyle = `rgba(${hslToRgb(p.color)}, ${p.alpha})`;
+        fireworkCtx.fill();
+
+        if (p.alpha < 0.05) {
+            particles.splice(index, 1);
+        }
+    });
+
+    if (particles.length > 0) {
+        requestAnimationFrame(updateParticles);
     } else {
-        toTopBtn.classList.remove('show');
+        explosionRunning = false;
+    }
+}
+
+function hslToRgb(hsl) {
+    const div = document.createElement('div');
+    div.style.color = hsl;
+    document.body.appendChild(div);
+    const rgb = getComputedStyle(div).color.match(/\d+/g).join(',');
+    document.body.removeChild(div);
+    return rgb;
+}
+
+function playFireworkSound() {
+    const fireworkSound = document.getElementById('fireworkSound');
+    if (fireworkSound) {
+        fireworkSound.volume = 1.0;
+        fireworkSound.currentTime = 0;
+        fireworkSound.play().catch(e => console.warn('Autoplay prevented:', e));
+    }
+}
+
+// --- Появление кнопки ---
+window.addEventListener('scroll', () => {
+    if (!explosionRunning && window.scrollY > 100) {
+        scrollToTopBtn.classList.add('show');
+    } else if (!explosionRunning) {
+        scrollToTopBtn.classList.remove('show');
     }
 });
 
-toTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// --- Нажатие на кнопку ---
+scrollToTopBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    playFireworkSound(); // Просто вызываем
+    explosionRunning = true;
+    scrollToTopBtn.classList.remove('show');
+    scrollToTopBtn.style.animation = 'explodeButton 1s forwards';
+
+    const rect = scrollToTopBtn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    explosionCenter = { x, y };
+    createParticles(x, y);
+
+    suckingStarted = false;
+    updateParticles();
+
+    setTimeout(() => {
+        suckingStarted = true;
+    }, 500);
+
+    setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollToTopBtn.style.animation = '';
+        explosionRunning = false; // После скролла разрешаем кнопку снова
+    }, 1000);
 });

@@ -339,25 +339,304 @@ h2 {
     overflow: hidden;
 }
 
-#to-top {
+#scrollToTopBtn {
     position: fixed;
-    bottom: 40px;
-    right: 30px;
-    width: 40px;
-    height: 40px;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
     background: linear-gradient(135deg, #ff00cc, #333399);
     color: white;
     border: none;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 24px;
     cursor: pointer;
+    box-shadow: 0 0 15px #ff00cc, 0 0 30px #333399;
     opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 100;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s;
+    z-index: 1001;
+    overflow: hidden;
+    animation: crazyGlow 3s infinite alternate;
 }
 
-#to-top.show {
+#scrollToTopBtn.show {
     opacity: 1;
-    pointer-events: all;
+    visibility: visible;
+}
+
+/* Стрелка нормальная */
+#scrollToTopBtn .text {
+    z-index: 2;
+}
+
+/* Стрелка глитч */
+#scrollToTopBtn .glitch-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #3399ff;
+    /* светло-синий для задней стрелки */
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(2px, -2px);
+    z-index: 1;
+    filter: drop-shadow(0 0 5px #3399ff) drop-shadow(0 0 10px #3399ff);
+}
+
+
+/* При ховере - включаем глитч эффект */
+#scrollToTopBtn:hover .glitch-text {
+    animation: glitchText 0.5s infinite;
+    opacity: 1;
+}
+
+#scrollToTopBtn:hover .text {
+    animation: glitchMain 0.5s infinite;
+}
+
+/* Анимация глитча задней стрелки */
+@keyframes glitchText {
+
+    0%,
+    100% {
+        transform: translate(2px, -2px);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    40% {
+        transform: translate(3px, 3px);
+    }
+
+    60% {
+        transform: translate(-3px, -3px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+}
+
+/* Анимация дрожания основной стрелки */
+@keyframes glitchMain {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    20% {
+        transform: translate(-1px, 1px);
+    }
+
+    40% {
+        transform: translate(1px, -1px);
+    }
+
+    60% {
+        transform: translate(-1px, -1px);
+    }
+
+    80% {
+        transform: translate(1px, 1px);
+    }
+}
+
+#fireworkCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+#scrollToTopBtn:active {
+    animation: explodeButton 1s forwards;
+}
+
+/* Взрыв + затягивание */
+@keyframes explodeButton {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+        filter: brightness(1) blur(0px);
+    }
+
+    30% {
+        transform: rotate(90deg) scale(1.2);
+        opacity: 0.7;
+        filter: brightness(1.2) blur(2px);
+    }
+
+    60% {
+        transform: rotate(180deg) scale(0.8);
+        opacity: 0.4;
+        filter: brightness(1.5) blur(4px);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(0);
+        opacity: 0;
+        filter: brightness(2) blur(8px);
+    }
+}
+
+/* Сумасшедшее свечение */
+@keyframes crazyGlow {
+    0% {
+        box-shadow: 0 0 10px #ff00cc, 0 0 20px #333399, 0 0 30px #ff00cc;
+    }
+
+    25% {
+        box-shadow: 0 0 20px #ff66e7, 0 0 40px #9933ff, 0 0 50px #ff66e7;
+    }
+
+    50% {
+        box-shadow: 0 0 30px #ff00cc, 0 0 60px #333399, 0 0 80px #9933ff;
+    }
+
+    75% {
+        box-shadow: 0 0 20px #ff66e7, 0 0 50px #ff00cc, 0 0 60px #9933ff;
+    }
+
+    100% {
+        box-shadow: 0 0 10px #ff00cc, 0 0 20px #333399, 0 0 30px #ff00cc;
+    }
+}
+
+#scrollToTopBtn.clicked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 0, 204, 1) 20%, transparent 70%),
+        radial-gradient(circle, rgba(153, 51, 255, 1) 20%, transparent 70%),
+        radial-gradient(circle, rgba(255, 102, 231, 1) 20%, transparent 70%);
+    background-size: 10% 10%, 10% 10%, 10% 10%;
+    background-position: center center, center center, center center;
+    background-repeat: no-repeat;
+    transform: translate(-50%, -50%) scale(1);
+    animation: sparksExplosion 0.6s forwards;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+@keyframes sparksExplosion {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+        background-position: center center, center center, center center;
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.5) rotate(20deg);
+        background-position: top left, bottom right, top right;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.5) rotate(45deg);
+        background-position: top left, bottom right, bottom left;
+    }
+}
+
+.flash {
+    box-shadow: 0 0 60px #ff00cc, 0 0 100px #9933ff, 0 0 150px #ff00cc;
+    transition: box-shadow 0.2s ease;
+}
+
+.spark {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 1500;
+    animation: sparkFly 1.2s forwards ease-out;
+    filter: blur(2px);
+}
+
+
+@keyframes sparkFly {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        filter: blur(1px);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translate(calc(var(--x) / 1.5), calc(var(--y) / 1.5)) scale(1.5);
+        filter: blur(3px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(0.5);
+        filter: blur(4px);
+    }
+}
+
+/* Дым */
+.smoke {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 80%);
+    animation: smokeVortex 2s forwards ease-out;
+    pointer-events: none;
+    z-index: 1400;
+}
+
+@keyframes smokeRise {
+    0% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(2) translateY(-50px);
+    }
+}
+
+/* Черная дыра */
+.blackhole {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, black 60%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1600;
+    animation: blackholeVortex 2s linear forwards;
+    transform-origin: center center;
+}
+
+@keyframes blackholeVortex {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0) rotate(1080deg);
+        opacity: 0;
+    }
 }
