@@ -258,7 +258,7 @@ footer {
 .section-hidden {
     opacity: 0;
     transform: translateY(50px) scale(0.95);
-    transition: all 0.8s ease-out;
+    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section-visible {
@@ -357,7 +357,7 @@ h2 {
     box-shadow: 0 0 15px #ff00cc, 0 0 30px #333399;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s;
+    transition: opacity 0.8s ease 0.3s, visibility 0.8s ease 0.3s;
     z-index: 1001;
     overflow: hidden;
     animation: crazyGlow 3s infinite alternate;
