@@ -1,101 +1,7 @@
-// --- Анимация звезд ---
-const starsCanvas = document.getElementById('stars');
-const starsCtx = starsCanvas.getContext('2d');
-
-let stars = [];
-const numStars = 100;
-
-function resizeStarsCanvas() {
-    starsCanvas.width = window.innerWidth;
-    starsCanvas.height = window.innerHeight;
-}
-
-function createStars() {
-    stars = [];
-    for (let i = 0; i < numStars; i++) {
-        stars.push({
-            x: Math.random() * starsCanvas.width,
-            y: Math.random() * starsCanvas.height,
-            radius: Math.random() * 1.5,
-            speed: Math.random() * 0.5 + 0.2
-        });
-    }
-}
-
-function drawStars() {
-    starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
-    starsCtx.fillStyle = '#ffccff';
-    for (let star of stars) {
-        starsCtx.beginPath();
-        starsCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        starsCtx.fill();
-    }
-}
-
-function updateStars() {
-    for (let star of stars) {
-        star.y += star.speed;
-        if (star.y > starsCanvas.height) {
-            star.y = 0;
-            star.x = Math.random() * starsCanvas.width;
-        }
-    }
-}
-function animateStars() {
-    drawStars();
-    updateStars();
-    requestAnimationFrame(animateStars);
-}
-
-window.addEventListener('resize', () => {
-    resizeStarsCanvas();
-    createStars();
-});
-resizeStarsCanvas();
-createStars();
-animateStars();
-
-// --- Секции ---
-const sections = document.querySelectorAll('section');
-const sectionObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            const index = [...sections].indexOf(entry.target);
-            entry.target.style.transitionDelay = `${index * 0.2}s`;
-            entry.target.classList.remove('section-hidden');
-            entry.target.classList.add('section-visible');
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.15 });
-
-sections.forEach(section => sectionObserver.observe(section));
-
-// --- Бургер ---
-const burger = document.getElementById('burger');
-const nav = document.getElementById('nav-links');
-const overlay = document.getElementById('overlay');
-
-function openMenu() {
-    nav.classList.add('active');
-    burger.classList.add('active');
-    overlay.classList.add('active');
-}
-
-function closeMenu() {
-    nav.classList.remove('active');
-    burger.classList.remove('active');
-    overlay.classList.remove('active');
-}
-burger.addEventListener('click', () => nav.classList.contains('active') ? closeMenu() : openMenu());
-overlay.addEventListener('click', closeMenu);
-document.addEventListener('scroll', closeMenu);
-
-// --- Кнопка наверх и фейерверк ---
 const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 const fireworkCanvas = document.getElementById('fireworkCanvas');
 const fireworkCtx = fireworkCanvas.getContext('2d');
-const fireworkSound = document.getElementById('fireworkSound');
+
 
 let particles = [];
 let explosionCenter = { x: 0, y: 0 };
@@ -171,15 +77,6 @@ function hslToRgb(hsl) {
     const rgb = getComputedStyle(div).color.match(/\d+/g).join(',');
     document.body.removeChild(div);
     return rgb;
-}
-
-function playFireworkSound() {
-    const fireworkSound = document.getElementById('fireworkSound');
-    if (fireworkSound) {
-        fireworkSound.volume = 1.0;
-        fireworkSound.currentTime = 0;
-        fireworkSound.play().catch(e => console.warn('Autoplay prevented:', e));
-    }
 }
 
 // --- Появление кнопки ---
