@@ -7,6 +7,7 @@ let particles = [];
 let explosionCenter = { x: 0, y: 0 };
 let suckingStarted = false;
 let explosionRunning = false;
+let fireworkInProgress = false;
 
 function resizeFireworkCanvas() {
     fireworkCanvas.width = window.innerWidth;
@@ -81,9 +82,9 @@ function hslToRgb(hsl) {
 
 // --- Появление кнопки ---
 window.addEventListener('scroll', () => {
-    if (!explosionRunning && window.scrollY > 100) {
+    if (!explosionRunning && !fireworkInProgress && window.scrollY > 100) {
         scrollToTopBtn.classList.add('show');
-    } else if (!explosionRunning) {
+    } else if (!explosionRunning && !fireworkInProgress) {
         scrollToTopBtn.classList.remove('show');
     }
 });
@@ -91,6 +92,7 @@ window.addEventListener('scroll', () => {
 // --- Нажатие на кнопку ---
 scrollToTopBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    fireworkInProgress = true;
 
     playFireworkSound(); // Просто вызываем
     explosionRunning = true;
@@ -113,7 +115,23 @@ scrollToTopBtn.addEventListener('click', (e) => {
 
     setTimeout(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        scrollToTopBtn.classList.remove('show');
+        scrollToTopBtn.classList.add('no-transition');
         scrollToTopBtn.style.animation = '';
-        explosionRunning = false; // После скролла разрешаем кнопку снова
+        explosionRunning = false;
+
+        setTimeout(() => {
+            scrollToTopBtn.classList.remove('no-transition');
+
+            // Пауза перед возвратом кнопки
+            setTimeout(() => {
+                fireworkInProgress = false;
+
+                if (window.scrollY > 100) {
+                    scrollToTopBtn.classList.add('show');
+                }
+            }, 2000); // пауза 2 сек
+        }, 50);
     }, 1000);
-});
+}); 

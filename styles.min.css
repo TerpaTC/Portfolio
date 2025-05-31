@@ -59,7 +59,8 @@ header {
     background: linear-gradient(to right, #f0c, #339);
     color: #fff;
     padding: 40px;
-    box-shadow: 0 4px 15px #f0c
+    box-shadow: 0 4px 15px #f0c;
+    margin-bottom: 20px;
 }
 
 header h1 {
@@ -105,12 +106,14 @@ ul {
     flex-direction: column;
     justify-content: space-between;
     width: 30px;
-    height: 21px;
-    cursor: pointer
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 101;
 }
 
 .burger span {
-    height: 3px;
+    height: 2pt;
     width: 100%;
     background: #fcf;
     border-radius: 2px;
@@ -214,14 +217,14 @@ section {
 }
 
 .projects {
-    padding: 80px 20px;
+    padding: 40px 20px;
     background-color: rgba(255, 255, 255, .05);
     text-align: center;
 }
 
 .projects__title {
-    font-size: 32px;
-    margin-bottom: 40px;
+    font-size: 28px;
+    margin-bottom: 30px;
 }
 
 .projects__grid {
@@ -363,11 +366,11 @@ h2 {
 }
 
 .burger.active span:first-child {
-    transform: rotate(45deg) translate(5px, 5px)
+    transform: rotate(45deg) translate(3.75pt, 5.5pt)
 }
 
 .burger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px)
+    transform: rotate(-45deg) translate(3.75pt, -5.25pt)
 }
 
 .nav-links.active {
@@ -403,9 +406,14 @@ h2 {
     font-size: 24px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity .8s .3s, visibility .8s .3s;
+    transform: scale(0.8);
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
     z-index: 1001;
     animation: 3s infinite alternate crazyGlow
+}
+
+#scrollToTopBtn.no-transition {
+    transition: none !important;
 }
 
 .blackhole,
@@ -415,7 +423,8 @@ h2 {
 
 #scrollToTopBtn.show {
     opacity: 1;
-    visibility: visible
+    visibility: visible;
+    transform: scale(1);
 }
 
 #scrollToTopBtn .text {
