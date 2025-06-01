@@ -326,13 +326,22 @@ footer {
 
 .section-hidden {
     opacity: 0;
-    transform: translateY(50px) scale(.95);
-    transition: 1.2s cubic-bezier(.22, 1, .36, 1)
+    transform: translateY(60px);
+    filter: blur(3px);
 }
 
 .section-visible {
     opacity: 1;
-    transform: translateY(0) scale(1)
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+.section-visible,
+.section-hidden {
+    transition:
+        opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+        filter 1.2s ease;
 }
 
 .burger.active span:nth-child(2),

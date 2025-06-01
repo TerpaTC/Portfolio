@@ -5,7 +5,10 @@ const sectionObserver = new IntersectionObserver((entries, observer) => {
             const index = [...sections].indexOf(entry.target);
             entry.target.style.transitionDelay = `${index * 0.2}s`;
             entry.target.classList.remove('section-hidden');
-            entry.target.classList.add('section-visible');
+            requestAnimationFrame(() => {
+                // ждём кадр, чтобы браузер применил hidden-стили
+                entry.target.classList.add('section-visible');
+            });
             observer.unobserve(entry.target);
         }
     });
