@@ -425,7 +425,6 @@ h2 {
     transition: none !important;
 }
 
-.blackhole,
 .spark {
     border-radius: 50%
 }
@@ -613,14 +612,6 @@ h2 {
     filter: blur(2px)
 }
 
-.blackhole,
-.smoke {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    pointer-events: none
-}
-
 @keyframes sparkFly {
     0% {
         opacity: 1;
@@ -638,42 +629,5 @@ h2 {
         opacity: 0;
         transform: translate(var(--x), var(--y)) scale(.5);
         filter: blur(4px)
-    }
-}
-
-.smoke {
-    background: radial-gradient(circle, rgba(255, 255, 255, .5) 0, rgba(255, 255, 255, 0) 80%);
-    animation: 2s ease-out forwards smokeVortex;
-    z-index: 1400
-}
-
-@keyframes smokeRise {
-    0% {
-        opacity: .7;
-        transform: scale(1)
-    }
-
-    100% {
-        opacity: 0;
-        transform: scale(2) translateY(-50px)
-    }
-}
-
-.blackhole {
-    background: radial-gradient(circle, #000 60%, transparent 70%);
-    z-index: 1600;
-    animation: 2s linear forwards blackholeVortex;
-    transform-origin: center center
-}
-
-@keyframes blackholeVortex {
-    0% {
-        transform: scale(1) rotate(0);
-        opacity: 1
-    }
-
-    100% {
-        transform: scale(0) rotate(1080deg);
-        opacity: 0
     }
 }
