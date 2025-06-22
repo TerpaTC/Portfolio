@@ -236,14 +236,17 @@ section {
 }
 
 .project-card {
+    display: block;
+    width: 100%;
+    max-width: 300px;         /* фиксируем максимальную ширину карточки */      /* квадрат */
+    margin: 0 auto;           /* выравнивание по центру в колонке */
+    border: 2px solid #ff66e7;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 20px #ff66e7;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0;
     transform: translateY(50px);
-    background: #2a0033;
-    border: 2px solid #f0c;
-    padding: 40px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.6s ease-out;
 }
 
 .project-card.visible {
@@ -254,6 +257,14 @@ section {
 .project-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* показываем всю картинку, не обрезая */
+    display: block;
+    background-color: #000;
 }
 
 h2 {
